@@ -14,11 +14,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+<!--
   <repository>
     <id>joelso-mvn-repo</id>
     <name>joelso github mvn repo</name>
     <url>https://raw.github.com/joelso/joelso-mvn-repo/master/snapshots/</url>
   </repository>
+-->
 
   <dependencies>
     <dependency>
