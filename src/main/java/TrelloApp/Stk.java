@@ -1,4 +1,4 @@
-package SpecialStack;
+package TrelloApp;
 
 public class Stk {
     private int[] s = new int[10];
