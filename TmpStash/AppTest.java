@@ -1,26 +1,15 @@
-package Testing;
+package SpecialStack;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.anyOf;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.CoreMatchers.*;
 
 import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.both;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.everyItem;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.matchers.JUnitMatchers.hasItems;
-
-import java.util.Arrays;
-
-import org.hamcrest.core.CombinableMatcher;
 
 /**
  * Unit test for simple App.
@@ -47,15 +36,17 @@ public class AppTest
     }
 
     /**
-     * Rigourous Test :-)
+     * Look at the differences in error messages
      */
     public void testApp()
     {
-        assertTrue( true );
-    }
-
-    public void testAppFails()
-    {
         assertTrue( false );
     }
+
+    public void testAppHamcrest()
+    {
+        assertThat(false, is(true));      // is(equalTo(value))
+    }
+
+
 }
