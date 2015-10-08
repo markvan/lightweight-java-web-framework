@@ -1,6 +1,7 @@
 package TrelloApp;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -8,14 +9,12 @@ import static org.hamcrest.CoreMatchers.*;
 
 public class StkTest {
 
-    private Stk s = new Stk();
+    private Stk s;
 
-    /*
     @Before
     public void setUp()  {
         s = new Stk();
     }
-    */
 
     @After
     public void tearDown() {
@@ -66,6 +65,7 @@ public class StkTest {
         }
     }
 }
+
 
 
 
