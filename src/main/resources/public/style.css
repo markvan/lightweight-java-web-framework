@@ -1,3 +1,7 @@
 p {
-  color: green;
+  color: gray;
+  }
+
+.highlight {
+  background-color: green;
   }
