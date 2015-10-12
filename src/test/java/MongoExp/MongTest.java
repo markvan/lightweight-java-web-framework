@@ -1,20 +1,24 @@
 package MongoExp;
 
-import TrelloApp.Stk2;
+import com.mongodb.client.MongoCursor;
+import org.bson.Document;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class MongTest {
 
-    private Stk2 s;
+    private Mong m;
 
     @Before
     public void setUp() throws Exception {
-        s = new Stk2();
+        m = new Mong();
+        m.initialize();
     }
 
     @After
@@ -24,41 +28,26 @@ public class MongTest {
 
     @Test
     public void testInitialState() {
-        assertThat(s.count(), is(0));
+        assertThat(m.all("people").size(), is(4));
     }
 
     @Test
-    public void testPushAndPop() {
-        s.push(-99);
-        assertThat(s.count(), is(1));
-        assertThat(s.pop(), is(-99));
-        assertThat(s.count(), is(0));
-    }
-
-    @Test
-    public void testRepeatPushAndPop() {
-        s.push(100);
-        s.push(200);
-        assertThat(s.count(), is(2));
-        s.push(300);
-        assertThat(s.count(), is(3));
-        assertThat(s.pop(), is(300));
-        assertThat(s.count(), is(2));
-        assertThat(s.pop(), is(200));
-        assertThat(s.count(), is(1));
-        assertThat(s.pop(), is(100));
-    }
-
-    @Test
-    public void testManyPushAndPop() {
-        int numberOfItems=2000000;
-        for (int i=1;i<=numberOfItems;i++)
-        {
-            s.push(i);
+    public void testCounter() {
+        MongoCursor<Document> cursor = m.cursor("people");
+        int i=0;
+        while (cursor.hasNext()) {
+            i += 1;
+            // System.out.println(cursor.next().toJson());
         }
-        for (int i=numberOfItems;i>=1;i--)
-        {
-            assertThat(s.pop(), is(i));
-        }
+        assertThat(i, is(4));
     }
+
+    @Test
+    public void testFind() {
+
+    }
+
+
+
+
 }
