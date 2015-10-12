@@ -2,6 +2,8 @@ package MongoExp;
 
 import com.mongodb.*;
 import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
+
 
 import org.bson.Document;
 
@@ -24,16 +26,30 @@ public class Mong {
 
     public ArrayList<Document> all(String collectionName) {
         ArrayList<Document> arr = new ArrayList<Document>();
-        MongoCursor<Document> cursor = this.cursor(collectionName);
+        MongoCursor<Document> collectionCursor = cursor(collectionName);
 
         try {
-            while (cursor.hasNext()) {
-                arr.add(cursor.next());
+            while (collectionCursor.hasNext()) {
+                arr.add(collectionCursor.next());
             }
         } finally {
-            cursor.close();
+            collectionCursor.close();
         }
         return arr;
+    }
+
+    public void find() {
+        ArrayList<Document> arr = new ArrayList<Document>();
+        MongoCollection<Document> collection = database.getCollection("people");
+
+        Block<Document> printBlock = new Block<Document>() {
+            @Override
+            public void apply(final Document document) {
+                System.out.println(document.toJson());
+            }
+        };
+         collection.find(Filters.eq("first name", "d")).forEach(printBlock);
+
     }
 
     public void initialize() {

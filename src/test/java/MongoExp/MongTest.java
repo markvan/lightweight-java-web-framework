@@ -27,7 +27,7 @@ public class MongTest {
     }
 
     @Test
-    public void testInitialState() {
+    public void testAll() {
         assertThat(m.all("people").size(), is(4));
     }
 
@@ -44,6 +44,7 @@ public class MongTest {
 
     @Test
     public void testFind() {
+        m.find();
 
     }
 
