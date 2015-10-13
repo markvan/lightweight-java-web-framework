@@ -23,22 +23,13 @@ public class People {
     }
 
     public MongoCursor<Document> cursor() {
-        MongoCollection<Document> collection = database.getCollection(DBConstants.PEOPLE);
-        return collection.find().iterator();
+        return database.getCollection( DBConstants.PEOPLE ).find().iterator();
     }
 
     public ArrayList<Document> all() {
         ArrayList<Document> arr = new ArrayList<>();
         MongoCursor<Document> collectionCursor = cursor();
-
-       try {
-            while (collectionCursor.hasNext()) {
-                arr.add(collectionCursor.next());
-            }
-        } finally {
-            collectionCursor.close();
-        }
-
+        while (collectionCursor.hasNext()) { arr.add(collectionCursor.next()) }
         return arr;
     }
 
@@ -49,18 +40,8 @@ public class People {
 
         // http://stackoverflow.com/questions/30424894/java-syntax-with-mongodb
         // https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
-        iterator.forEach((Block<Document>)  document -> {
-            arr.add(document);
-        });
+        iterator.forEach((Block<Document>)  document -> { arr.add(document); } );
         return arr;
-    }
-
-    public void initialize() {
-        database.getCollection(DBConstants.PEOPLE).drop();
-        MongoCollection<Document> collection = database.getCollection(DBConstants.PEOPLE);
-        create("a", "b", "c").create("d", "e", "f");
-        create("g", "h", "i").create("j", "k", "l");
-        assert collection.count()==4 : "something wrong in People.initialize";
     }
 
     public People create(String firstName, String secondName, String profession) {
@@ -70,6 +51,21 @@ public class People {
         doc.append("profession", profession);
         database.getCollection(DBConstants.PEOPLE).insertOne(doc);
         return this;
+    }
+
+    public Boolean delete(Bson filter) {
+        find(filter);
+        // delete whatever is found
+        return false;
+    }
+
+
+        // only of use in testing
+    public void initialize() {
+        database.getCollection(DBConstants.PEOPLE).drop();
+        MongoCollection<Document> collection = database.getCollection(DBConstants.PEOPLE);
+        create("a", "b", "c").create("d", "e", "f").create("g", "h", "i").create("j", "k", "l");
+        assert collection.count()==4 : "something wrong in People.initialize, number of documents is not 4";
     }
 
     public static void main(String[] args) {

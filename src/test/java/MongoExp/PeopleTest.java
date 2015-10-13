@@ -37,16 +37,13 @@ public class PeopleTest {
     public void testCursor() {
         MongoCursor<Document> cursor = people.cursor();
         int i=0;
-        while (cursor.hasNext()) {
-            i += 1;
-            System.out.println(cursor.next().toJson());
-        }
+        while ( cursor.hasNext() ) { cursor.next(); i += 1; }
         assertThat(i, is(4));
     }
 
     @Test
     public void testFind() {
-        assertThat(people.find(Filters.or(eq("first name", "d"), eq("first name", "a"))).size(), is(2));
+        assertThat( people.find( Filters.or(eq("first name", "d"), eq("first name", "a"))).size(), is(2) );
     }
 
     @Test
@@ -61,7 +58,7 @@ public class PeopleTest {
     @Test
     public void testDelete() {
         assertThat(people.find(Filters.eq("first name", "d")).size(), is(111111111));
-        //people.delete("first name", "d");
+        people.delete( eq("first name", "d") );
         assertThat(people.find(Filters.eq("first name", "d")).size(), is(222222));
     }
 
