@@ -6,8 +6,11 @@ import com.mongodb.client.model.Filters;
 
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import java.util.*;
+
+import static com.mongodb.client.model.Filters.eq;
 
 public class Mong {
 
@@ -25,7 +28,7 @@ public class Mong {
     }
 
     public ArrayList<Document> all(String collectionName) {
-        ArrayList<Document> arr = new ArrayList<Document>();
+        ArrayList<Document> arr = new ArrayList<>();
         MongoCursor<Document> collectionCursor = cursor(collectionName);
 
         try {
@@ -38,18 +41,18 @@ public class Mong {
         return arr;
     }
 
-    public void find() {
-        ArrayList<Document> arr = new ArrayList<Document>();
+    public ArrayList<Document> find(Bson filter) {
+        ArrayList<Document> arr = new ArrayList<>();
         MongoCollection<Document> collection = database.getCollection("people");
 
-        Block<Document> printBlock = new Block<Document>() {
-            @Override
-            public void apply(final Document document) {
-                System.out.println(document.toJson());
-            }
-        };
-         collection.find(Filters.eq("first name", "d")).forEach(printBlock);
+        FindIterable<Document> iterator = collection.find(filter);
 
+        // http://stackoverflow.com/questions/30424894/java-syntax-with-mongodb
+        // https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
+        iterator.forEach((Block<Document>) document -> {
+            arr.add(document);
+        });
+        return arr;
     }
 
     public void initialize() {
@@ -60,6 +63,16 @@ public class Mong {
         assert collection.count()==4 : "something wrong in Mong.initialize";
     }
 
+    public void x() {
+        MongoClient mongoClient = new MongoClient("localhost", 27017);
+        MongoDatabase database = mongoClient.getDatabase("demoDatabase");
+        MongoCollection<Document> collection = database.getCollection("people");
+        MongoCursor<Document> cursor = collection.find().iterator();
+        while (cursor.hasNext()) {
+            System.out.println(cursor.next().toJson());
+        }
+    }
+
     private Mong addPerson(MongoCollection<Document> collection, String firstName, String secondName, String profession) {
         Document doc = new Document();
         doc.append("first name", firstName);
@@ -67,5 +80,11 @@ public class Mong {
         doc.append("profession", profession);
         collection.insertOne(doc);
         return this;
+    }
+
+    public static void main(String[] args) {
+        Mong m = new Mong();
+        m.find(Filters.or(eq("first name", "d"), eq("first name", "a")));
+
     }
 }

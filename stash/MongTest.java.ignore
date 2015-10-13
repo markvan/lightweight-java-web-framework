@@ -1,15 +1,18 @@
 package MongoExp;
 
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.mongodb.client.model.Filters.eq;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 public class MongTest {
 
@@ -32,23 +35,29 @@ public class MongTest {
     }
 
     @Test
+    public void testX() {
+        m.x();
+    }
+/*
+
+    @Test
     public void testCounter() {
-        MongoCursor<Document> cursor = m.cursor("people");
+        // MongoCursor<Document> cursor = m.cursor("people");
+        MongoClient mongoClient = new MongoClient("localhost", 27017);
+        MongoDatabase database = mongoClient.getDatabase("demoDatabase");
+        MongoCollection<Document> collection = database.getCollection("people");
+        MongoCursor<Document> cursor = collection.find().iterator();
         int i=0;
         while (cursor.hasNext()) {
             i += 1;
-            // System.out.println(cursor.next().toJson());
+            System.out.println(cursor.next().toJson());
         }
         assertThat(i, is(4));
     }
+*/
 
     @Test
     public void testFind() {
-        m.find();
-
+        m.find(Filters.or(eq("first name", "d"), eq("first name", "a")));
     }
-
-
-
-
 }
