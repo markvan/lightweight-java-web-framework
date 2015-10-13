@@ -1,5 +1,6 @@
-package TrelloApp;
+package WebApp;
 
+import MongoExp.People;
 import spark.ModelAndView;
 import spark.template.jade.JadeTemplateEngine;
 
@@ -14,19 +15,24 @@ import static spark.SparkBase.staticFileLocation;
  */
 public class Main {
 
+    private People people = new People();
+
     public static void main(String[] args) {
         // css files and other public resources are in .../main/resources/public
         staticFileLocation("/public");
 
         // The hello.jade template file is in the resources/templates directory
         get("/hello", (rq, rs) -> new ModelAndView( dostuff(), "hello" ), new JadeTemplateEngine());
-        //get("/demonstrations", (rq, rs) -> new ModelAndView( Demonstration.all(), "hello" ), new JadeTemplateEngine());
+        get("/people", (rq, rs) -> new ModelAndView( peopleIndexMap(), "peopleIndex" ), new JadeTemplateEngine());
     }
 
     static private Map<String, Object> dostuff () {
-        Demonstration demo = new Demonstration("woza!");
         Map<String, Object> map = new HashMap<>();
-        map.put("message", demo);
+        return map;
+    }
+
+    static private Map<String, Object> peopleIndexMap () {
+        Map<String, Object> map = new HashMap<>();
         return map;
     }
 }

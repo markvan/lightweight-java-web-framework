@@ -4,8 +4,6 @@ import com.mongodb.*;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 
-
-
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -20,6 +18,8 @@ public class People {
     public People() {
         MongoClient mongoClient = new MongoClient("localhost", 27017);
         database = mongoClient.getDatabase(DBConstants.DATABASE);
+        // TODO remember to remove the next line
+        initialize();
     }
 
     public MongoCursor<Document> cursor() {
@@ -29,7 +29,7 @@ public class People {
     public ArrayList<Document> all() {
         ArrayList<Document> arr = new ArrayList<>();
         MongoCursor<Document> collectionCursor = cursor();
-        while (collectionCursor.hasNext()) { arr.add(collectionCursor.next()) }
+        while (collectionCursor.hasNext()) { arr.add(collectionCursor.next()); }
         return arr;
     }
 

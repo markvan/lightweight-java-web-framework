@@ -1,5 +1,6 @@
 package TrelloApp;
 
+import Stk.Stk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
