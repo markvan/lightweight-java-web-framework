@@ -1,6 +1,7 @@
 package WebApp;
 
 import MongoExp.People;
+import org.bson.Document;
 import spark.ModelAndView;
 import spark.template.jade.JadeTemplateEngine;
 
@@ -15,24 +16,31 @@ import static spark.SparkBase.staticFileLocation;
  */
 public class Main {
 
-    private People people = new People();
 
     public static void main(String[] args) {
+        Main m = new Main();
+        People people = new People();
+        //development, start with four people
+        people.initialize();
         // css files and other public resources are in .../main/resources/public
         staticFileLocation("/public");
 
-        // The hello.jade template file is in the resources/templates directory
-        get("/hello", (rq, rs) -> new ModelAndView( dostuff(), "hello" ), new JadeTemplateEngine());
-        get("/people", (rq, rs) -> new ModelAndView( peopleIndexMap(), "peopleIndex" ), new JadeTemplateEngine());
+        // The xxxx.jade template files are in the resources/templates directory
+        get("/hello", (rq, rs) -> new ModelAndView( m.dostuff(), "hello" ), new JadeTemplateEngine());
+        get("/people", (rq, rs) -> new ModelAndView( m.peopleIndexMap(people), "peopleIndex" ), new JadeTemplateEngine());
     }
 
-    static private Map<String, Object> dostuff () {
+    private Map<String, Object> dostuff () {
         Map<String, Object> map = new HashMap<>();
+        map.put( "message", "Hello world!!!!" );
+
         return map;
     }
 
-    static private Map<String, Object> peopleIndexMap () {
+    private Map<String, Object> peopleIndexMap (People people) {
         Map<String, Object> map = new HashMap<>();
+
+        map.put( "peeps", people.all() );
         return map;
     }
 }

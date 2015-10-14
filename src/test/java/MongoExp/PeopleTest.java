@@ -57,9 +57,9 @@ public class PeopleTest {
     @Ignore
     @Test
     public void testDelete() {
-        assertThat(people.find(Filters.eq("first name", "d")).size(), is(111111111));
+        assertThat( people.find(Filters.eq("first name", "d")).size(), is(-3) );
         people.delete( eq("first name", "d") );
-        assertThat(people.find(Filters.eq("first name", "d")).size(), is(222222));
+        assertThat( people.find(Filters.eq("first name", "d")).size(), is(-3) );
     }
 
 }

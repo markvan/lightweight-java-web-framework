@@ -4,15 +4,9 @@ html(lang="en")
     title Title
     link(href='/style.css', rel='stylesheet')
   body
-    h1 Jade - node template engine
+    h1 All people
 
-    #container.highlight
-      p= message
-      p print a string and value #{message}
-      p.
-        Jade is a terse and simple
-        templating language with a
-        strong focus on performance
-        and powerful features.
-      p.
-        include text
+    #container
+      ul
+        each val in peeps
+          li #{val}
