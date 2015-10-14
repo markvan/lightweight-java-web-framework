@@ -2,8 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2adfdf95-1aad-4b65-890a-6fa90138fed6" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/WebApp/Main.java" afterPath="$PROJECT_DIR$/src/main/java/WebApp/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/MongoExp/PeopleTest.java" afterPath="$PROJECT_DIR$/src/test/java/MongoExp/PeopleTest.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/TrelloApp/Demonstration.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/TrelloApp/Main.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/TrelloApp/Stk.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/TrelloApp/Stk2.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/MongoExp/People.class" afterPath="$PROJECT_DIR$/target/classes/MongoExp/People.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/MongoExp/PeopleTest.class" afterPath="$PROJECT_DIR$/target/test-classes/MongoExp/PeopleTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/TrelloApp/Stk2Test.class" afterPath="$PROJECT_DIR$/target/test-classes/TrelloApp/Stk2Test.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/TrelloApp/StkTest.class" afterPath="$PROJECT_DIR$/target/test-classes/TrelloApp/StkTest.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/peopleIndex.jade" afterPath="$PROJECT_DIR$/src/main/resources/templates/peopleIndex.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -28,11 +34,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/WebApp/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7780083">
-              <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="34" column="48" selection-start-line="34" selection-start-column="48" selection-end-line="34" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -40,10 +46,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="peopleIndex.jade" pinned="false" current-in-tab="false">
+      <file leaf-file-name="peopleIndex.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/peopleIndex.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="0.373444">
               <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding />
             </state>
@@ -89,8 +95,8 @@
         <option value="$PROJECT_DIR$/src/test/java/MongoExp/PersonTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/MongoExp/People.java" />
         <option value="$PROJECT_DIR$/src/test/java/MongoExp/PeopleTest.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/peopleIndex.jade" />
         <option value="$PROJECT_DIR$/src/main/java/WebApp/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/peopleIndex.jade" />
       </list>
     </option>
   </component>
@@ -741,7 +747,13 @@
       <option name="project" value="LOCAL" />
       <updated>1444778252385</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="starting to get jade to iterate over an ArrayList of people that are in Bson Document form">
+      <created>1444816901758</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1444816901758</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
@@ -755,7 +767,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="29" y="23" width="1276" height="877" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -825,7 +837,8 @@
     <MESSAGE value="Mongo sim layer for People done except for delete a person" />
     <MESSAGE value="minor refactor of People and PeopleTest" />
     <MESSAGE value="end of day" />
-    <option name="LAST_COMMIT_MESSAGE" value="end of day" />
+    <MESSAGE value="starting to get jade to iterate over an ArrayList of people that are in Bson Document form" />
+    <option name="LAST_COMMIT_MESSAGE" value="starting to get jade to iterate over an ArrayList of people that are in Bson Document form" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -983,21 +996,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/peopleIndex.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/WebApp/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7780083">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="48" selection-start-line="34" selection-start-column="48" selection-end-line="34" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/peopleIndex.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.373444">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
