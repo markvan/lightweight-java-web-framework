@@ -17,13 +17,12 @@ import static com.mongodb.client.model.Filters.eq;
 public class People {
 
     private MongoDatabase database;
-    private MongoClient mongoClient;
     MongoCollection<Document> collection;
 
-    private AppLogs logger = new AppLogs();
+    // private AppLogs logger = new AppLogs();
 
     public People() {
-        mongoClient = new MongoClient("localhost", 27017);
+        MongoClient mongoClient = new MongoClient("localhost", 27017);
         database = mongoClient.getDatabase(DBConstants.DATABASE);
         collection = database.getCollection(DBConstants.PEOPLE);
     }
@@ -41,16 +40,14 @@ public class People {
 
     public ArrayList<Document> find(Bson filter) {
         ArrayList<Document> arr = new ArrayList<>();
-        //MongoCollection<Document> collection = database.getCollection(DBConstants.PEOPLE);
         FindIterable<Document> iterator = collection.find(filter);
         // http://stackoverflow.com/questions/30424894/java-syntax-with-mongodb
         // https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
-        iterator.forEach((Block<Document>)  document -> { arr.add(document); } );
+        iterator.forEach((Block<Document>)  document ->  arr.add(document) );
         return arr;
     }
 
     public Document findOne(Bson filter) {
-        //MongoCollection<Document> collection = database.getCollection(DBConstants.PEOPLE);
         return collection.find(filter).limit(1).first();
     }
 
@@ -69,10 +66,7 @@ public class People {
     }
 
     public Document findOne(ObjectId id) {
-        //MongoCollection collection = database.getCollection(DBConstants.PEOPLE);
-        DBObject dbObject = new BasicDBObject("_id", id);
-        Document doc = (Document)collection.find( eq("_id", id) ).limit(1).first();
-        return doc;
+        return collection.find( eq("_id", id) ).limit(1).first();
     }
 
     public Document create(String firstName, String secondName, String profession) {

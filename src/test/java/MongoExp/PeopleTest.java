@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -49,6 +48,11 @@ public class PeopleTest {
     @Test
     public void testFind() {
         assertThat( people.find( Filters.or(eq("first name", "d"), eq("first name", "a"))).size(), is(2) );
+    }
+
+    @Test
+    public void testFindOne() {
+        assertThat( people.findOne( Filters.eq("first name", "a") ).get("first name"), is("a") );
     }
 
     @Test
