@@ -4,13 +4,13 @@ import com.mongodb.*;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 
+
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.bson.conversions.Bson;
 import spark.Request;
 
-import java.util.*;
-import java.util.logging.*;
+import java.util.ArrayList;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -26,8 +26,6 @@ public class People {
         mongoClient = new MongoClient("localhost", 27017);
         database = mongoClient.getDatabase(DBConstants.DATABASE);
         collection = database.getCollection(DBConstants.PEOPLE);
-        // TODO remember to remove the next line
-        initialize();
     }
 
     public MongoCursor<Document> cursor() {
@@ -88,19 +86,22 @@ public class People {
     }
 
     public Document create(Request request) {
+        //TODO use arg in creation
         return create("Frankie", "Zappa", "musician");
-        // return findOne(eq("first name", "Zappa"));
     }
 
-    public Boolean delete(Bson filter) {
-        find(filter);
-        //TODO delete whatever is found
-        return false;
+    public Document delete(ObjectId id) {
+        return collection.findOneAndDelete(eq("_id", id));
+    }
+
+    public Document delete(Bson filter) {
+        return collection.findOneAndDelete( filter );
     }
 
 
-        // only of use in testing
+    // only of use in testing
     public void initialize() {
+        collection.deleteMany(new Document());
         create("a", "b", "c"); create("d", "e", "f"); create("g", "h", "i"); create("j", "k", "l");
         assert collection.count()==4 : "something wrong in People.initialize, number of documents is not 4";
     }

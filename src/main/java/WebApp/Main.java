@@ -3,8 +3,8 @@ package WebApp;
 import MongoExp.People;
 import org.bson.Document;
 import spark.ModelAndView;
-import static com.mongodb.client.model.Filters.eq;
 import org.bson.types.ObjectId;
+
 import spark.Request;
 import spark.Response;
 import spark.template.jade.JadeTemplateEngine;
@@ -36,11 +36,19 @@ public class Main {
             response.redirect("/people/"+person.get("_id"), 301);
             return null; });
 
-        get("/people/:id", (request, response)   -> new ModelAndView( toMap("person", people.findOne(new ObjectId(request.params(":id"))) ), "peopleShow" ), new JadeTemplateEngine());
+        // new for the form, create uses submitted form data
+        get("/people/new", (request, response)  -> new ModelAndView( toMap( "people", people.all()), "peopleNew" ), new JadeTemplateEngine());
+        post("/people", (request, response) -> new ModelAndView( toMap( "person", people.create(request)), "personShow" ), new JadeTemplateEngine());
 
+        // show one and list all
+        get("/people/:id", (request, response)   -> new ModelAndView( toMap("person", people.findOne(new ObjectId(request.params(":id"))) ), "peopleShow" ), new JadeTemplateEngine());
         get("/people", (request, response)  -> new ModelAndView( toMap( "people", people.all()), "peopleIndex" ), new JadeTemplateEngine());
 
-        post("/people", (request, response) -> new ModelAndView( toMap( "person", people.create(request)), "personShow" ), new JadeTemplateEngine());
+        // update
+
+        // delete, redirects to show all
+        get("/people/:id/delete", (request, response)  -> new ModelAndView( toMap( "people", people.delete(new ObjectId(request.params(":id")))), "peopleIndex" ), new JadeTemplateEngine());
+
     }
 
     static private Map<String, Object>toMap(String key, Object obj) {
