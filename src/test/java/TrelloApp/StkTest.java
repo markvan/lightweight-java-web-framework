@@ -26,6 +26,7 @@ public class StkTest {
     public void testInitialState() {
         assertThat(s.count(), is(0));
     }
+
     @Test
     public void testPush() {
         s.push(100);

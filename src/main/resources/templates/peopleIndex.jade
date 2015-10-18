@@ -4,9 +4,12 @@ html(lang="en")
     title Title
     link(href='/style.css', rel='stylesheet')
   body
-    h1 All people
+    h2 All people
 
     #container
       ul
-        each val in  peeps
-          li #{val[1]}
+        each person in  people
+          li
+            - urlFragment = person["_id"].toString()
+            a(href="/people/".concat(urlFragment))
+              #{person["_id"]} #{person["first name"]} #{person["second name"]} #{person["profession"]}

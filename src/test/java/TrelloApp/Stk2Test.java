@@ -23,6 +23,13 @@ public class Stk2Test {
     }
 
     @Test
+    public void testPopFromEmptyStack() {
+
+        s.pop();
+    }
+
+
+    @Test
     public void testInitialState() {
         assertThat(s.count(), is(0));
     }
@@ -51,7 +58,7 @@ public class Stk2Test {
 
     @Test
     public void testManyPushAndPop() {
-        int numberOfItems=2000000;
+        int numberOfItems=40000000;
         for (int i=1;i<=numberOfItems;i++)
         {
             s.push(i);
