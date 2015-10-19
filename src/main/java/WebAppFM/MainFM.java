@@ -1,7 +1,10 @@
 package WebAppFM;
 
 import static spark.Spark.get;
+import static spark.Spark.staticFileLocation;
+
 import freemarker.template.Configuration;
+import freemarker.template.Version;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,34 +14,30 @@ import java.util.HashMap;
 public class MainFM
 {
     public static void main(String[] args) throws IOException {
-        final Configuration fMConfig = configureFreemarker();
+        final Configuration fMConfig = configureFreemarker(new Version(2,3,23));
+        staticFileLocation("/public"); // css files and other public resources are in .../main/resources/public
+
 
         get("/ping", (req, res) -> "pong\n");
 
-        get( "/hello/:name", (request, response) -> render(fMConfig, "hello.ftl", toMap("name", request.params(":name"), null)) );
+        get( "/hello", (request, response) -> render(fMConfig, "hello.ftl", toMap("name", "Shaderach", null)) );
     }
 
     private static Object render(Configuration fMConfig, String view, HashMap viewArgs) {
         StringWriter sw = new StringWriter();
-
-        //params used in the template files
-        //passed the sublayout filename and the title page
         try {
-            //template engine processing
-            fMConfig.getTemplate(view).process(viewArgs, sw);
+            fMConfig.getTemplate(view).process(viewArgs, sw); //template engine processing
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //return the rendered html code
-        return sw.toString();
+        return sw.toString(); //return the rendered HTML
     }
 
-    private static Configuration configureFreemarker() {
-        Configuration fMConfig = new Configuration();
+    private static Configuration configureFreemarker(Version version) {
+        Configuration fMConfig = new Configuration(version);
 
         try {
-            //indicates the templates directory to freemarker
-            fMConfig.setDirectoryForTemplateLoading(new File("src/main/views"));
+            fMConfig.setDirectoryForTemplateLoading(new File("src/main/views")); //set the templates directory
         } catch (IOException e) {
             e.printStackTrace();
         }
