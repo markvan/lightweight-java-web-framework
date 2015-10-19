@@ -3,9 +3,6 @@ package WebAppFM;
 import static spark.Spark.get;
 import static spark.Spark.staticFileLocation;
 
-import spark.ModelAndView;
-import spark.template.freemarker.FreeMarkerEngine;
-
 import freemarker.template.Configuration;
 import freemarker.template.Version;
 
