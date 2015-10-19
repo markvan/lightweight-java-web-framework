@@ -3,6 +3,9 @@ package WebAppFM;
 import static spark.Spark.get;
 import static spark.Spark.staticFileLocation;
 
+import spark.ModelAndView;
+import spark.template.freemarker.FreeMarkerEngine;
+
 import freemarker.template.Configuration;
 import freemarker.template.Version;
 
@@ -19,8 +22,10 @@ public class MainFM
 
 
         get("/ping", (req, res) -> "pong\n");
-
         get( "/hello", (request, response) -> render(fMConfig, "hello.ftl", toMap("name", "Shaderach", null)) );
+        get( "/hello/:name", (request, response) -> render(fMConfig, "hello.ftl", toMap("name", request.params(":name"), null)) );
+
+
     }
 
     private static Object render(Configuration fMConfig, String view, HashMap viewArgs) {
@@ -35,7 +40,6 @@ public class MainFM
 
     private static Configuration configureFreemarker(Version version) {
         Configuration fMConfig = new Configuration(version);
-
         try {
             fMConfig.setDirectoryForTemplateLoading(new File("src/main/views")); //set the templates directory
         } catch (IOException e) {
