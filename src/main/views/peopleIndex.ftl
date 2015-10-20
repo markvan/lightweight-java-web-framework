@@ -6,7 +6,7 @@
     <h2>People we know about</h2>
     <#list people as person>
         <ul>
-            <li>${person.first_name}</li>
+            <li> <a href="/people/${person._id}">${person.first_name} ${person.second_name}</a> </li>
         </ul>
         <#else>
             No people to list

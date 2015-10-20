@@ -10,6 +10,7 @@ import static spark.Spark.staticFileLocation;
 import MongoExp.People;
 import freemarker.template.Configuration;
 import freemarker.template.Version;
+import org.bson.types.ObjectId;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,8 +32,12 @@ public class MainFM
         get("/people/new", (req, res) -> "pong\n"); // form to create a person
         post("/people", (req, res) -> "pong\n");    // create according to params - Create in CRUD
 
-        get("/people", (req, res) -> render( cfg, "peopleIndex.ftl", toMap("people", people.all(), null) ) ) ;  //show all
-        get("/people/:id", (req, res) -> "pong\n"); // show one - Read in CRUD
+        get("/people", (req, res) ->
+                render( cfg, "peopleIndex.ftl", toMap("people", people.all(), null) ) ) ;   //show all
+        get("/people/:id", (req, res) ->                                                    // show one - Read in CRUD
+                render(cfg, "peopleShow.ftl",
+                toMap("person", people.findOne(new ObjectId(req.params(":id"))), null) ) );
+
 
         get("/people/:id/edit", (req, res) -> "pong\n"); // form to edit an existing person
         put("/people/:id", (req, res) -> "pong\n"); // update an existing person - Update in CRUD
@@ -45,7 +50,8 @@ public class MainFM
 
         get("/ping", (req, res) -> "pong\n");
         get( "/hello", (request, response) -> render(cfg, "hello.ftl", toMap("name", "Shaderach", null)) );
-        get( "/hello/:name", (request, response) -> render(cfg, "hello.ftl", toMap("name", request.params(":name"), null)) );
+        get( "/hello/:name", (request, response) -> render(cfg, "hello.ftl",
+                                                           toMap("name", request.params(":name"), null)) );
 
 //      get( "/params", (request, response) -> render(cfg, "params.ftl", toMap("name", toMap("first", "mark", toMap("second", "van", null)), null)) );
         get( "/params", (request, response) -> render(cfg, "peopleIndex.ftl", toMap("people", people.all(), null )));
