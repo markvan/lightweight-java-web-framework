@@ -11,6 +11,8 @@ import org.bson.conversions.Bson;
 import spark.Request;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -30,6 +32,8 @@ public class People {
     public MongoCursor<Document> cursor() {
         return database.getCollection( DBConstants.PEOPLE ).find().iterator();
     }
+
+
 
     public ArrayList<Document> all() {
         ArrayList<Document> arr = new ArrayList<>();
@@ -71,8 +75,8 @@ public class People {
 
     public Document create(String firstName, String secondName, String profession) {
         Document doc = new Document();
-        doc.append("first name", firstName);
-        doc.append("second name", secondName);
+        doc.append("first_name", firstName);
+        doc.append("second_name", secondName);
         doc.append("profession", profession);
         //database.getCollection(DBConstants.PEOPLE).insertOne(doc);
         collection.insertOne(doc);
@@ -104,16 +108,16 @@ public class People {
         People people = new People();
         people.initialize();
 
-        ArrayList<Document> docs = people.find(Filters.or(eq("first name", "d"), eq("first name", "a")));
+        ArrayList<Document> docs = people.find(Filters.or(eq("first_name", "d"), eq("first_name", "a")));
         for (Document d : docs) {
             System.out.println(d.toJson());
         }
         System.out.println("==============================");
 
 
-        for (Document d : people.all()) {
-            System.out.println(d.toJson());
-        }
+//        for (Document d : people.all()) {
+//            System.out.println(d.toJson());
+//        }
 
     }
 }
