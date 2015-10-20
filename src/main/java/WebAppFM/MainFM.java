@@ -40,9 +40,14 @@ public class MainFM
 
 
         get("/people/:id/edit", (req, res) -> "pong\n"); // form to edit an existing person
-        put("/people/:id", (req, res) -> "pong\n"); // update an existing person - Update in CRUD
 
-        delete("/people/:id", (req, res) -> "pong\n"); // update an existing person - Delete in CRUD
+        get("/people/:id/delete", (req, res) -> {            // Delete in CRUD
+                    people.delete(new ObjectId(req.params(":id")));
+                    res.redirect("/people");
+                    return null;
+                } );
+
+        put("/people/:id", (req, res) -> "pong\n");      // Update in CRUD, based on form
 
         // end CRUD for people
         // -------------------------
