@@ -4,14 +4,12 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.eq;
 
-import org.bson.BSON;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -24,7 +22,7 @@ public class PeopleTest {
     @Before
     public void setUp() throws Exception {
         people = new People();
-        people.initialize();
+        people.populate();
     }
 
     @After
@@ -47,12 +45,12 @@ public class PeopleTest {
 
     @Test
     public void testFind() {
-        assertThat( people.find( Filters.or(eq("first name", "d"), eq("first name", "a"))).size(), is(2) );
+        assertThat( people.find( Filters.or(eq("first_name", "Frank"), eq("first_name", "Dwight"))).size(), is(2) );
     }
 
     @Test
     public void testFindOne() {
-        assertThat( people.findOne( Filters.eq("first name", "a") ).get("first name"), is("a") );
+        assertThat( people.findOne( Filters.eq("first_name", "Frank") ).get("first_name"), is("Frank") );
     }
 
     @Test
@@ -65,14 +63,14 @@ public class PeopleTest {
 
     @Test
     public void testDelete() {
-        assertThat( people.find(Filters.eq("first name", "d")).size(), is(1) );
-        people.delete( eq("first name", "d") );
-        assertThat( people.find(Filters.eq("first name", "d")).size(), is(0) );
-        assertThat( people.find(Filters.eq("first name", "a")).size(), is(1) );
+        assertThat( people.find(Filters.eq("first_name", "Frank")).size(), is(1) );
+        people.delete( eq("first_name", "Frank") );
+        assertThat( people.find(Filters.eq("first_name", "Frank")).size(), is(0) );
+        assertThat( people.find(Filters.eq("first_name", "Dwight")).size(), is(1) );
 
-        Document doc = people.findOne(Filters.eq("first name", "a"));
+        Document doc = people.findOne(Filters.eq("first_name", "Dwight"));
         people.delete( (ObjectId)doc.get("_id") );
-        assertThat(people.find(Filters.eq("first name", "d")).size(), is(0));
+        assertThat(people.find(Filters.eq("first_name", "Dwight")).size(), is(0));
         assertThat(people.all().size(), is(2));
     }
 

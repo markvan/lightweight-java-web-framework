@@ -24,7 +24,7 @@ public class MainJade {
     /*  Deprecated, here for reference
 
         People people = new People();  // db adaptor
-        people.initialize();           // development, start with four people
+        people.populate();           // development, start with four people
         staticFileLocation("/public"); // css files and other public resources are in .../main/resources/public
                                        // The x.jade template files are in the resources/templates directory
 

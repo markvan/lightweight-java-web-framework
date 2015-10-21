@@ -24,8 +24,8 @@ public class MainFM
     public static void main(String[] args) throws IOException {
         final Configuration config = configureFreemarker(new Version(2,3,23)); // get Freemarker configuration
 
-        People people = new People();  // db adaptor
-        people.initialize();           // development, start with four people
+        People people = new People();  // database adaptor for MongoDB
+        people.populate();           // I'm developing code so it helps me ot start with four people in the database
         staticFileLocation("/public"); // css files and other public resources are in .../main/resources/public
 
         // CRUD for people

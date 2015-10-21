@@ -11,8 +11,6 @@ import org.bson.conversions.Bson;
 import spark.Request;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -97,16 +95,16 @@ public class People {
     }
 
 
-    // only of use in testing
-    public void initialize() {
+    // only of use in testing while developing
+    public void populate() {
         collection.deleteMany(new Document());
-        create("a", "b", "c"); create("d", "e", "f"); create("g", "h", "i"); create("j", "k", "l");
-        assert collection.count()==4 : "something wrong in People.initialize, number of documents is not 4";
+        create("Frank", "Zappa", "Musician"); create("Dwight", "Eisenhower", "US President"); create("Gergio", "Moroder", "Producer"); create("William", "Shakespear", "Playwright");
+        assert collection.count()==4 : "something wrong in People.populate, number of documents is not 4";
     }
 
     public static void main(String[] args) {
         People people = new People();
-        people.initialize();
+        people.populate();
 
         ArrayList<Document> docs = people.find(Filters.or(eq("first_name", "d"), eq("first_name", "a")));
         for (Document d : docs) {
