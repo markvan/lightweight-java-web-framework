@@ -10,6 +10,7 @@ import static spark.Spark.staticFileLocation;
 import MongoExp.People;
 import freemarker.template.Configuration;
 import freemarker.template.Version;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import java.io.File;
@@ -28,20 +29,26 @@ public class MainFM
         staticFileLocation("/public"); // css files and other public resources are in .../main/resources/public
 
         // CRUD for people
+        // in the following req is request info, res is response info
 
-        get("/people/new", (req, res) -> "pong\n"); // form to create a person
-        post("/people", (req, res) -> "pong\n");    // create according to params - Create in CRUD
+        get("/people/new", (req, res) ->                 // form to create a person
+                render(cfg, "peopleForm.ftl", null) );
+        post("/people", (req, res) -> {                    // create according to params - Create in CRUD
+                    Document newPerson = people.create(req.params(":first_name"), req.params(":second_name"), req.params(":profession"));
+                    res.redirect("/people/" + newPerson.get("_id"));
+                    return null;
+                } );
 
         get("/people", (req, res) ->
-                render( cfg, "peopleIndex.ftl", toMap("people", people.all(), null) ) ) ;   //show all
+                render(cfg, "peopleIndex.ftl", toMap("people", people.all(), null)) ) ;   //show all
         get("/people/:id", (req, res) ->                                                    // show one - Read in CRUD
                 render(cfg, "peopleShow.ftl",
                 toMap("person", people.findOne(new ObjectId(req.params(":id"))), null) ) );
 
 
-        get("/people/:id/edit", (req, res) -> "pong\n"); // form to edit an existing person
+        get("/people/:id/edit", (req, res) -> "pong\n");  // form to edit an existing person
 
-        get("/people/:id/delete", (req, res) -> {            // Delete in CRUD
+        get("/people/:id/delete", (req, res) -> {         // Delete in CRUD
                     people.delete(new ObjectId(req.params(":id")));
                     res.redirect("/people");
                     return null;
@@ -75,7 +82,7 @@ public class MainFM
 
     static private HashMap toMap(String key, Object obj, HashMap map) {
         if (map == null)
-          map = new HashMap<>();
+            map = new HashMap<>();
         map.put( key, obj );
         return map;
     }
