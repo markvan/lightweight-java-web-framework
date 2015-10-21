@@ -2,7 +2,7 @@ package MongoExp;
 
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
-import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.*;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -56,9 +56,10 @@ public class PeopleTest {
     @Test
     public void testCreate() {
         assertThat(people.all().size(), is(4));
-        people.create("x", "y", "z");
+        Document person = people.create("x", "y", "z");
         assertThat(people.all().size(), is(5));
-
+        //assertThat(person.get("_id"), is(new ObjectId("562818d790e886c776323f35")));
+        //assertThat(person.get("_id").toString(), is("562818d790e886c776323f35"));
     }
 
     @Test

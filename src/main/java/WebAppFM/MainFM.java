@@ -6,6 +6,7 @@ import static spark.Spark.post;
 
 import static spark.Spark.staticFileLocation;
 
+import MongoExp.AppLogs;
 import MongoExp.People;
 import freemarker.template.Configuration;
 import freemarker.template.Version;
@@ -36,17 +37,23 @@ public class MainFM
 
         // Create (as in CRUD) from request parameters set when a user submits the form above
         // note how peopleFormNew.ftl specifies the create is done using an HTTP post to /people
-        get("/people/create", (request, response) -> {
+        post("/people", (request, response) -> {
 
             // Get the value of the field named 'profession' in the form - see 'name' in peopleFormNew.ftl
             //    request.queryParams("profession"));
 
             // Create the entry in the database, using 'people' the database adaptor
+
+            AppLogs logger = new AppLogs();
+            logger.info(">>>>>>>>>>>"+request.queryParams("first_name"));
+            logger.info(">>>>>>>>>>>"+request.queryParams("second_name"));
+            logger.info(">>>>>>>>>>>"+request.queryParams("profession"));
+
             Document newPerson = people.create( request.queryParams("first_name"),
                                                 request.queryParams("second_name"),
                                                 request.queryParams("profession") );
             // show the person's information
-            response.redirect("/people/" + newPerson.getString("_id"));
+            response.redirect( "/people/" + newPerson.get("_id").toString() );
             return null;
         } );
 
