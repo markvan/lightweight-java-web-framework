@@ -43,15 +43,16 @@ public class MainFM
             //    request.queryParams("profession"));
 
             // Create the entry in the database, using 'people' the database adaptor
-
+/*
             AppLogs logger = new AppLogs();
             logger.info(">>>>>>>>>>>"+request.queryParams("first_name"));
             logger.info(">>>>>>>>>>>"+request.queryParams("second_name"));
             logger.info(">>>>>>>>>>>"+request.queryParams("profession"));
-
+*/
             Document newPerson = people.create( request.queryParams("first_name"),
                                                 request.queryParams("second_name"),
                                                 request.queryParams("profession") );
+
             // show the person's information
             response.redirect( "/people/" + newPerson.get("_id").toString() );
             return null;
