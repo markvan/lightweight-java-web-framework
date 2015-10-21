@@ -2,7 +2,6 @@ package WebAppFM;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
-import static spark.Spark.put;
 
 
 import static spark.Spark.staticFileLocation;
@@ -31,32 +30,60 @@ public class MainFM
         // CRUD for people
         // in the following req is request info, res is response info
 
-        get("/people/new", (request, response) ->                 // form to create a person
-                render(config, "peopleForm.ftl", null) );
-        post("/people", (request, response) -> {                    // create according to params - Create in CRUD
-            Document newPerson = people.create(request.params(":first_name"), request.params(":second_name"),
-                                               request.params(":profession"));
-            response.redirect("/people/" + newPerson.get("_id"));
+        // form to create a person
+        get("/people/new", (request, response) ->
+                render(config, "peopleFormNew.ftl") );
+
+        // Create (as in CRUD) from request parameters set when a user submits the form above
+        // note how peopleFormNew.ftl specifies the create is done using an HTTP post to /people
+        get("/people/create", (request, response) -> {
+
+            // Get the value of the field named 'profession' in the form - see 'name' in peopleFormNew.ftl
+            //    request.queryParams("profession"));
+
+            // Create the entry in the database, using 'people' the database adaptor
+            Document newPerson = people.create( request.queryParams("first_name"),
+                                                request.queryParams("second_name"),
+                                                request.queryParams("profession") );
+            // show the person's information
+            response.redirect("/people/" + newPerson.getString("_id"));
             return null;
         } );
 
+        // show all the people we have in the database
         get("/people", (request, response) ->
-                render(config, "peopleIndex.ftl", toMap("people", people.all() ) ) );          // ** ', null' removed
-                                                                                            // show all
-        get("/people/:id", (request, response) ->                                                    // show one - Read in CRUD
-                render(config, "peopleShow.ftl",
-                        toMap("person", people.findOne(new ObjectId(request.params(":id"))) ) ) ); // ** ', null' removed
+                render(config, "peopleIndex.ftl", toMap("people", people.all() ) ) );
 
+        // Show the information for one person (as in Read in CRUD)
+        get("/people/:id", (request, response) ->
+                render( config, "peopleShow.ftl",
+                        toMap("person", people.findOne(new ObjectId(request.params(":id"))) ) ) );
 
-        get("/people/:id/edit", (request, response) -> "pong\n");  // form to edit an existing person
+        // form to edit the information on a person who is already in the database, pre-populated with existing information
+        get("/people/:id/edit", (request, response) ->
+                render( config, "peopleFormUpdate.ftl",
+                        toMap("person", people.findOne(new ObjectId(request.params(":id"))) ) ) );
 
-        get("/people/:id/delete", (request, response) -> {         // Delete in CRUD
+        // Update (as in CRUD), based on information supplied via the form above
+        // note how peopleFormUpdate.ftl specifies the create is done using an HTTP post to /people/:id
+        post("/people/:id", (request, response) -> {
+            people.update(  new ObjectId(request.params(":id")),
+                            request.queryParams("first_name"),
+                            request.queryParams("second_name"),
+                            request.queryParams("profession") );
+            // show the person's information
+            response.redirect("/people/" + request.params(":id"));
+            return null;
+        } );
+
+        // Delete (as in CRUD)
+        get("/people/:id/delete", (request, response) -> {
             people.delete(new ObjectId(request.params(":id")));
             response.redirect("/people");
             return null;
-        } );
+        });
 
-        post("/people/:id", (request, response) -> "pong\n");      // Update in CRUD, based on form
+
 
         // end CRUD for people
         // -------------------------
@@ -70,6 +97,10 @@ public class MainFM
 //      get( "/params", (request, response) -> render(config, "params.ftl", toMap("name", toMap("first", "mark", toMap("second", "van", null)), null)) );
         get( "/params", (request, response) -> render(config, "peopleIndex.ftl", toMap("people", people.all()))); // ** ', null' removed
 
+    }
+
+    private static Object render(Configuration config, String view) {
+        return render(config, view, null);
     }
 
     private static Object render(Configuration config, String view, Object viewArgs) {

@@ -9,5 +9,8 @@
         <br/>
         Profession: ${person.profession}
     </p>
+
+    <a href="/people" class=""button>All people</a>
+
 </body>
 </html>

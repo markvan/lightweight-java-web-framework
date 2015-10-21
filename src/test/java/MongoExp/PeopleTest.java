@@ -74,4 +74,18 @@ public class PeopleTest {
         assertThat(people.all().size(), is(2));
     }
 
+    @Test
+    public void testUpdate() {
+        Document person = people.findOne(Filters.eq("first_name", "Dwight"));
+        person.put("first_name", "Jane");
+        people.update(person);
+        Document updated = people.find(Filters.eq("second_name", "Eisenhower")).get(0);
+        assertThat(updated.getString("first_name"), is("Jane"));
+        people.update((ObjectId)person.get("_id"), "Julius",(String)person.get("second_name"),(String)person.get("profession") );
+        updated = people.find(Filters.eq("second_name", "Eisenhower")).get(0);
+        assertThat(updated.getString("first_name"), is("Julius"));
+
+
+    }
+
 }

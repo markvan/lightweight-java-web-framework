@@ -54,18 +54,19 @@ public class People {
     }
 
     public Document update(Document updatedDoc) {
-        /* db.inventory.update(
-              {{ item: "MNO2" },
-        {
-            $set: {
-                category: "apparel",
-                        details: { model: "14Q3", manufacturer: "XYZ Company" }
-            },
-            $currentDate: { lastModified: true }
-        }}
-        )*/
+        ObjectId id = (ObjectId) updatedDoc.get("_id");
+        collection.replaceOne(eq("_id", id), updatedDoc);
         return updatedDoc;
     }
+
+    public Document update(ObjectId id, String firstName, String secondName, String profession) {
+        Document updatePerson = new Document();
+        updatePerson.append("_id", id).append("first_name", firstName)
+                    .append("second_name", secondName).append("profession", profession);
+        return update(updatePerson);
+    }
+
+
 
     public Document findOne(ObjectId id) {
         return collection.find( eq("_id", id) ).limit(1).first();
