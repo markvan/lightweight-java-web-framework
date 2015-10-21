@@ -3,7 +3,7 @@ package WebAppFM;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
-import static spark.Spark.delete;
+
 
 import static spark.Spark.staticFileLocation;
 
@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class MainFM
 {
     public static void main(String[] args) throws IOException {
-        final Configuration cfg = configureFreemarker(new Version(2,3,23));
+        final Configuration config = configureFreemarker(new Version(2,3,23)); // get Freemarker configuration
 
         People people = new People();  // db adaptor
         people.initialize();           // development, start with four people
@@ -31,51 +31,51 @@ public class MainFM
         // CRUD for people
         // in the following req is request info, res is response info
 
-        get("/people/new", (req, res) ->                 // form to create a person
-                render(cfg, "peopleForm.ftl", null) );
-        post("/people", (req, res) -> {                    // create according to params - Create in CRUD
-            Document newPerson = people.create(req.params(":first_name"), req.params(":second_name"),
-                                               req.params(":profession"));
-            res.redirect("/people/" + newPerson.get("_id"));
+        get("/people/new", (request, response) ->                 // form to create a person
+                render(config, "peopleForm.ftl", null) );
+        post("/people", (request, response) -> {                    // create according to params - Create in CRUD
+            Document newPerson = people.create(request.params(":first_name"), request.params(":second_name"),
+                                               request.params(":profession"));
+            response.redirect("/people/" + newPerson.get("_id"));
             return null;
         } );
 
-        get("/people", (req, res) ->
-                render(cfg, "peopleIndex.ftl", toMap("people", people.all() ) ) );          // ** ', null' removed
+        get("/people", (request, response) ->
+                render(config, "peopleIndex.ftl", toMap("people", people.all() ) ) );          // ** ', null' removed
                                                                                             // show all
-        get("/people/:id", (req, res) ->                                                    // show one - Read in CRUD
-                render(cfg, "peopleShow.ftl",
-                        toMap("person", people.findOne(new ObjectId(req.params(":id"))) ) ) ); // ** ', null' removed
+        get("/people/:id", (request, response) ->                                                    // show one - Read in CRUD
+                render(config, "peopleShow.ftl",
+                        toMap("person", people.findOne(new ObjectId(request.params(":id"))) ) ) ); // ** ', null' removed
 
 
-        get("/people/:id/edit", (req, res) -> "pong\n");  // form to edit an existing person
+        get("/people/:id/edit", (request, response) -> "pong\n");  // form to edit an existing person
 
-        get("/people/:id/delete", (req, res) -> {         // Delete in CRUD
-            people.delete(new ObjectId(req.params(":id")));
-            res.redirect("/people");
+        get("/people/:id/delete", (request, response) -> {         // Delete in CRUD
+            people.delete(new ObjectId(request.params(":id")));
+            response.redirect("/people");
             return null;
         } );
 
-        put("/people/:id", (req, res) -> "pong\n");      // Update in CRUD, based on form
+        post("/people/:id", (request, response) -> "pong\n");      // Update in CRUD, based on form
 
         // end CRUD for people
         // -------------------------
         // remains of spikes
 
-        get("/ping", (req, res) -> "pong\n");
-        get( "/hello", (request, response) -> render(cfg, "hello.ftl", toMap("name", "Shaderach")) );  // ** ', null' removed
-        get( "/hello/:name", (request, response) -> render(cfg, "hello.ftl",
+        get("/ping", (request, response) -> "pong\n");
+        get( "/hello", (request, response) -> render(config, "hello.ftl", toMap("name", "Shaderach")) );  // ** ', null' removed
+        get( "/hello/:name", (request, response) -> render(config, "hello.ftl",
                 toMap("name", request.params(":name"))) );  // ** ', null' removed
 
-//      get( "/params", (request, response) -> render(cfg, "params.ftl", toMap("name", toMap("first", "mark", toMap("second", "van", null)), null)) );
-        get( "/params", (request, response) -> render(cfg, "peopleIndex.ftl", toMap("people", people.all()))); // ** ', null' removed
+//      get( "/params", (request, response) -> render(config, "params.ftl", toMap("name", toMap("first", "mark", toMap("second", "van", null)), null)) );
+        get( "/params", (request, response) -> render(config, "peopleIndex.ftl", toMap("people", people.all()))); // ** ', null' removed
 
     }
 
-    private static Object render(Configuration cfg, String view, Object viewArgs) {
+    private static Object render(Configuration config, String view, Object viewArgs) {
         StringWriter sw = new StringWriter();
         try {
-            cfg.getTemplate(view).process(viewArgs, sw); //template engine processing
+            config.getTemplate(view).process(viewArgs, sw); //template engine processing
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,12 +95,12 @@ public class MainFM
     }
 
     private static Configuration configureFreemarker(Version version) {
-        Configuration cfg = new Configuration(version);
+        Configuration config = new Configuration(version);
         try {
-            cfg.setDirectoryForTemplateLoading(new File("src/main/views")); //set the templates directory
+            config.setDirectoryForTemplateLoading(new File("src/main/views")); //set the templates directory
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return cfg;
+        return config;
     }
 }

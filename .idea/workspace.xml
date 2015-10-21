@@ -32,12 +32,12 @@
       <file leaf-file-name="MainFM.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/WebAppFM/MainFM.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0014205">
-              <caret line="47" column="89" selection-start-line="47" selection-start-column="89" selection-end-line="47" selection-end-column="89" />
+            <state vertical-scroll-proportion="0.13333334">
+              <caret line="24" column="110" selection-start-line="24" selection-start-column="110" selection-end-line="24" selection-end-column="110" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3678#3679#0" expanded="true" />
-                <element signature="e#3722#3723#0" expanded="true" />
+                <element signature="e#3810#3811#0" expanded="true" />
+                <element signature="e#3854#3855#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -972,7 +972,13 @@
       <option name="project" value="LOCAL" />
       <updated>1445455273559</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="after refactor step in MainFM to remove need for unnescessary argument">
+      <created>1445455798167</created>
+      <option name="number" value="00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1445455798167</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1068,7 +1074,8 @@
     <MESSAGE value="get /people/&lt;id&gt; works" />
     <MESSAGE value="get /people/&lt;id&gt;/delete works" />
     <MESSAGE value="before method overloading refactor example&#10;&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="before method overloading refactor example&#10;&#10;" />
+    <MESSAGE value="after refactor step in MainFM to remove need for unnescessary argument" />
+    <option name="LAST_COMMIT_MESSAGE" value="after refactor step in MainFM to remove need for unnescessary argument" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1105,8 +1112,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3678#3679#0" expanded="true" />
-            <element signature="e#3722#3723#0" expanded="true" />
+            <element signature="e#3810#3811#0" expanded="true" />
+            <element signature="e#3854#3855#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1465,12 +1472,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/WebAppFM/MainFM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0014205">
-          <caret line="47" column="89" selection-start-line="47" selection-start-column="89" selection-end-line="47" selection-end-column="89" />
+        <state vertical-scroll-proportion="0.13333334">
+          <caret line="24" column="110" selection-start-line="24" selection-start-column="110" selection-end-line="24" selection-end-column="110" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3678#3679#0" expanded="true" />
-            <element signature="e#3722#3723#0" expanded="true" />
+            <element signature="e#3810#3811#0" expanded="true" />
+            <element signature="e#3854#3855#0" expanded="true" />
           </folding>
         </state>
       </provider>
