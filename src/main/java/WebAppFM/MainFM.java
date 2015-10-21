@@ -34,25 +34,27 @@ public class MainFM
         get("/people/new", (req, res) ->                 // form to create a person
                 render(cfg, "peopleForm.ftl", null) );
         post("/people", (req, res) -> {                    // create according to params - Create in CRUD
-                    Document newPerson = people.create(req.params(":first_name"), req.params(":second_name"), req.params(":profession"));
-                    res.redirect("/people/" + newPerson.get("_id"));
-                    return null;
-                } );
+            Document newPerson = people.create(req.params(":first_name"), req.params(":second_name"),
+                                               req.params(":profession"));
+            res.redirect("/people/" + newPerson.get("_id"));
+            return null;
+        } );
 
         get("/people", (req, res) ->
-                render(cfg, "peopleIndex.ftl", toMap("people", people.all(), null)) ) ;   //show all
+                render(cfg, "peopleIndex.ftl", toMap("people", people.all() ) ) );          // ** ', null' removed
+                                                                                            // show all
         get("/people/:id", (req, res) ->                                                    // show one - Read in CRUD
                 render(cfg, "peopleShow.ftl",
-                toMap("person", people.findOne(new ObjectId(req.params(":id"))), null) ) );
+                        toMap("person", people.findOne(new ObjectId(req.params(":id"))) ) ) ); // ** ', null' removed
 
 
         get("/people/:id/edit", (req, res) -> "pong\n");  // form to edit an existing person
 
         get("/people/:id/delete", (req, res) -> {         // Delete in CRUD
-                    people.delete(new ObjectId(req.params(":id")));
-                    res.redirect("/people");
-                    return null;
-                } );
+            people.delete(new ObjectId(req.params(":id")));
+            res.redirect("/people");
+            return null;
+        } );
 
         put("/people/:id", (req, res) -> "pong\n");      // Update in CRUD, based on form
 
@@ -61,12 +63,12 @@ public class MainFM
         // remains of spikes
 
         get("/ping", (req, res) -> "pong\n");
-        get( "/hello", (request, response) -> render(cfg, "hello.ftl", toMap("name", "Shaderach", null)) );
+        get( "/hello", (request, response) -> render(cfg, "hello.ftl", toMap("name", "Shaderach")) );  // ** ', null' removed
         get( "/hello/:name", (request, response) -> render(cfg, "hello.ftl",
-                                                           toMap("name", request.params(":name"), null)) );
+                toMap("name", request.params(":name"))) );  // ** ', null' removed
 
 //      get( "/params", (request, response) -> render(cfg, "params.ftl", toMap("name", toMap("first", "mark", toMap("second", "van", null)), null)) );
-        get( "/params", (request, response) -> render(cfg, "peopleIndex.ftl", toMap("people", people.all(), null )));
+        get( "/params", (request, response) -> render(cfg, "peopleIndex.ftl", toMap("people", people.all()))); // ** ', null' removed
 
     }
 
@@ -78,6 +80,11 @@ public class MainFM
             e.printStackTrace();
         }
         return sw.toString(); //return the rendered HTML
+    }
+
+    // Added to allow simplification of method invocations by removing ', null' from call parameters
+    static private HashMap toMap(String key, Object obj) {
+        return toMap(key, obj, null);
     }
 
     static private HashMap toMap(String key, Object obj, HashMap map) {

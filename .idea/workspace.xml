@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2adfdf95-1aad-4b65-890a-6fa90138fed6" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/views/peopleForm.ftl" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-TrelloApp.StkTest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/surefire-reports/TrelloApp.StkTest.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/WebAppFM/MainFM.class" afterPath="$PROJECT_DIR$/target/classes/WebAppFM/MainFM.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/MongoExp/People.class" afterPath="$PROJECT_DIR$/target/classes/MongoExp/People.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/WebAppFM/MainFM.java" afterPath="$PROJECT_DIR$/src/main/java/WebAppFM/MainFM.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/public/style.css" afterPath="$PROJECT_DIR$/src/main/resources/public/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/public/style.css" afterPath="$PROJECT_DIR$/target/classes/public/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -36,10 +32,12 @@
       <file leaf-file-name="MainFM.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/WebAppFM/MainFM.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.6621068">
-              <caret line="81" column="4" selection-start-line="81" selection-start-column="4" selection-end-line="81" selection-end-column="4" />
+            <state vertical-scroll-proportion="1.0014205">
+              <caret line="47" column="89" selection-start-line="47" selection-start-column="89" selection-end-line="47" selection-end-column="89" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#3678#3679#0" expanded="true" />
+                <element signature="e#3722#3723#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -968,7 +966,13 @@
       <option name="project" value="LOCAL" />
       <updated>1445372362713</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="before method overloading refactor example&#10;&#10;">
+      <created>1445455273559</created>
+      <option name="number" value="00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1445455273559</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1063,7 +1067,8 @@
     <MESSAGE value="get /people works" />
     <MESSAGE value="get /people/&lt;id&gt; works" />
     <MESSAGE value="get /people/&lt;id&gt;/delete works" />
-    <option name="LAST_COMMIT_MESSAGE" value="get /people/&lt;id&gt;/delete works" />
+    <MESSAGE value="before method overloading refactor example&#10;&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="before method overloading refactor example&#10;&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1100,6 +1105,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#3678#3679#0" expanded="true" />
+            <element signature="e#3722#3723#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1458,10 +1465,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/WebAppFM/MainFM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.6621068">
-          <caret line="81" column="4" selection-start-line="81" selection-start-column="4" selection-end-line="81" selection-end-column="4" />
+        <state vertical-scroll-proportion="1.0014205">
+          <caret line="47" column="89" selection-start-line="47" selection-start-column="89" selection-end-line="47" selection-end-column="89" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#3678#3679#0" expanded="true" />
+            <element signature="e#3722#3723#0" expanded="true" />
           </folding>
         </state>
       </provider>
