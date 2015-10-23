@@ -3,10 +3,9 @@ package WebAppFM;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
-
 import static spark.Spark.staticFileLocation;
 
-import MongoExp.AppLogs;
+// import MongoExp.AppLogs;
 import MongoExp.People;
 import freemarker.template.Configuration;
 import freemarker.template.Version;
@@ -22,10 +21,11 @@ import java.util.HashMap;
 public class MainFM
 {
     public static void main(String[] args) throws IOException {
+
         final Configuration config = configureFreemarker(new Version(2,3,23)); // get Freemarker configuration
 
         People people = new People();  // database adaptor for MongoDB
-        people.populate();           // I'm developing code so it helps me ot start with four people in the database
+        people.populate();           // I'm developing code so it helps me to start with four people in the database
         staticFileLocation("/public"); // css files and other public resources are in .../main/resources/public
 
         // CRUD for people
@@ -54,6 +54,10 @@ public class MainFM
                                                 request.queryParams("profession") );
 
             // show the person's information
+            // note, fi we simply said return render(config,"peopleShow.ftl", <map of data for new person>)
+            // we would see the right information, but it would display at url '/people' which is
+            // already used to show all people. So instead we redirect to the route to show a
+            // persons info as below, and the page at '/people/<id>' displays, using the correct URL
             response.redirect( "/people/" + newPerson.get("_id").toString() );
             return null;
         } );
@@ -67,21 +71,22 @@ public class MainFM
                 render( config, "peopleShow.ftl",
                         toMap("person", people.findOne(new ObjectId(request.params(":id"))) ) ) );
 
-        // form to edit the information on a person who is already in the database, pre-populated with existing information
+        // form to edit the information on a person who is already in the database
         get("/people/:id/edit", (request, response) ->
                 render( config, "peopleFormUpdate.ftl",
                         toMap("person", people.findOne(new ObjectId(request.params(":id"))) ) ) );
 
         // Update (as in CRUD), based on information supplied via the form above
-        // note how peopleFormUpdate.ftl specifies the create is done using an HTTP post to /people/:id
-        post("/people/:id", (request, response) -> {
+        //   note how peopleFormUpdate.ftl specifies the create is done using
+        //   an HTTP post to /people/:id
+        post("/people/:id" , (request, response) -> {
             people.update(  new ObjectId(request.params(":id")),
                             request.queryParams("first_name"),
                             request.queryParams("second_name"),
                             request.queryParams("profession") );
-            // show the person's information
-            response.redirect("/people/" + request.params(":id"));
-            return null;
+            // show the person's information using the correct url '/people/<id>'
+            return render( config, "peopleShow.ftl",
+                    toMap("person", people.findOne(new ObjectId(request.params(":id"))) ) );
         } );
 
         // Delete (as in CRUD)
@@ -99,8 +104,17 @@ public class MainFM
 
         get("/ping", (request, response) -> "pong\n");
         get( "/hello", (request, response) -> render(config, "hello.ftl", toMap("name", "Shaderach")) );  // ** ', null' removed
-        get( "/hello/:name", (request, response) -> render(config, "hello.ftl",
-                toMap("name", request.params(":name"))) );  // ** ', null' removed
+
+        get( "/hello",                         // HTTP request type and URL
+             (request, response) ->            // Java 8 lambda expression
+                                               // provides call-back code
+                render(config, "helloWorld.ftl")); // call-back code to run
+                                                   // when request received
+
+        get( "/hello/:name",
+             (request, response) ->
+                 render( config, "hello.ftl",
+                         toMap("name", request.params(":name"))) );
 
 //      get( "/params", (request, response) -> render(config, "params.ftl", toMap("name", toMap("first", "mark", toMap("second", "van", null)), null)) );
         get( "/params", (request, response) -> render(config, "peopleIndex.ftl", toMap("people", people.all()))); // ** ', null' removed

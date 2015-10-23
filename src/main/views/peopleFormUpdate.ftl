@@ -23,6 +23,9 @@
             </div>
         </form>
 
-        <a href="/people" class=""button>Cancel</a>
+        <a href="/people" class="button">Cancel</a>
     </body>
 </html>
+
+
+
