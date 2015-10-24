@@ -79,10 +79,6 @@ public class MainFM
         //   note how peopleFormUpdate.ftl (used above) specifies the create is done using
         //   an HTTP post to /people/:id
         put("/people/:id", (request, response) -> {
-            AppLogs logger = new AppLogs();
-            logger.info(">>>>>>>>>>>" + request.queryParams("first_name"));
-            logger.info(">>>>>>>>>>>" + request.queryParams("second_name"));
-            logger.info(">>>>>>>>>>>" + request.queryParams("profession"));
             people.update(new ObjectId(request.params(":id")),
                     request.queryParams("first_name"),
                     request.queryParams("second_name"),
@@ -90,7 +86,6 @@ public class MainFM
             // show the person's information using an existing route
             //return render(config, "peopleShow.ftl",
             //        toMap("person", people.findOne(new ObjectId(request.params(":id")))));
-            logger.info(">>>>>>>>>>>" + request.params(":id"));
             response.redirect("/people/" + request.params(":id"));
             return null;
         });
