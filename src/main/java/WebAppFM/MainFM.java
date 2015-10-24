@@ -2,6 +2,7 @@ package WebAppFM;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 import static spark.Spark.staticFileLocation;
 
@@ -39,22 +40,20 @@ public class MainFM
         // note how peopleFormNew.ftl specifies the create is done using an HTTP post to /people
         post("/people", (request, response) -> {
 
-            // Get the value of the field named 'profession' in the form - see 'name' in peopleFormNew.ftl
-            //    request.queryParams("profession"));
-
-            // Create the entry in the database, using 'people' the database adaptor
 /*
             AppLogs logger = new AppLogs();
             logger.info(">>>>>>>>>>>"+request.queryParams("first_name"));
             logger.info(">>>>>>>>>>>"+request.queryParams("second_name"));
             logger.info(">>>>>>>>>>>"+request.queryParams("profession"));
 */
+            // Create the entry in the database, using 'people' the database adaptor
+            // Use the values of fields in the form the user filled in
             Document newPerson = people.create( request.queryParams("first_name"),
                                                 request.queryParams("second_name"),
                                                 request.queryParams("profession") );
 
             // show the person's information
-            // note, fi we simply said return render(config,"peopleShow.ftl", <map of data for new person>)
+            // note, if we simply said return render(config,"peopleShow.ftl", <map of data for new person>)
             // we would see the right information, but it would display at url '/people' which is
             // already used to show all people. So instead we redirect to the route to show a
             // persons info as below, and the page at '/people/<id>' displays, using the correct URL
@@ -77,17 +76,17 @@ public class MainFM
                         toMap("person", people.findOne(new ObjectId(request.params(":id"))) ) ) );
 
         // Update (as in CRUD), based on information supplied via the form above
-        //   note how peopleFormUpdate.ftl specifies the create is done using
+        //   note how peopleFormUpdate.ftl (used above) specifies the create is done using
         //   an HTTP post to /people/:id
-        post("/people/:id" , (request, response) -> {
-            people.update(  new ObjectId(request.params(":id")),
-                            request.queryParams("first_name"),
-                            request.queryParams("second_name"),
-                            request.queryParams("profession") );
-            // show the person's information using the correct url '/people/<id>'
-            return render( config, "peopleShow.ftl",
-                    toMap("person", people.findOne(new ObjectId(request.params(":id"))) ) );
-        } );
+        put("/people/:id", (request, response) -> {
+            people.update(new ObjectId(request.params(":id")),
+                    request.queryParams("first_name"),
+                    request.queryParams("second_name"),
+                    request.queryParams("profession"));
+            // show the person's information using the url /people/:id
+            return render(config, "peopleShow.ftl",
+                    toMap("person", people.findOne(new ObjectId(request.params(":id")))));
+        });
 
         // Delete (as in CRUD)
         get("/people/:id/delete", (request, response) -> {

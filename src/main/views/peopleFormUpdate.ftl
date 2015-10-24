@@ -5,7 +5,7 @@
     <body>
         <h2>Person details</h2>
 
-        <form action="/people/${person._id}" method="post">
+        <form action="/people/${person._id}" method="put">
             <div>
                 <label for="first_name">First name&nbsp;</label>
                 <input type="text" id="first_name" name="first_name" value="${person.first_name}" />
