@@ -6,7 +6,7 @@ import static spark.Spark.put;
 
 import static spark.Spark.staticFileLocation;
 
-// import MongoExp.AppLogs;
+import MongoExp.AppLogs;
 import MongoExp.People;
 import freemarker.template.Configuration;
 import freemarker.template.Version;
@@ -49,8 +49,8 @@ public class MainFM
             // Create the entry in the database, using 'people' the database adaptor
             // Use the values of fields in the form the user filled in
             Document newPerson = people.create( request.queryParams("first_name"),
-                                                request.queryParams("second_name"),
-                                                request.queryParams("profession") );
+                    request.queryParams("second_name"),
+                    request.queryParams("profession") );
 
             // show the person's information
             // note, if we simply said return render(config,"peopleShow.ftl", <map of data for new person>)
@@ -79,13 +79,20 @@ public class MainFM
         //   note how peopleFormUpdate.ftl (used above) specifies the create is done using
         //   an HTTP post to /people/:id
         put("/people/:id", (request, response) -> {
+            AppLogs logger = new AppLogs();
+            logger.info(">>>>>>>>>>>" + request.queryParams("first_name"));
+            logger.info(">>>>>>>>>>>" + request.queryParams("second_name"));
+            logger.info(">>>>>>>>>>>" + request.queryParams("profession"));
             people.update(new ObjectId(request.params(":id")),
                     request.queryParams("first_name"),
                     request.queryParams("second_name"),
                     request.queryParams("profession"));
-            // show the person's information using the url /people/:id
-            return render(config, "peopleShow.ftl",
-                    toMap("person", people.findOne(new ObjectId(request.params(":id")))));
+            // show the person's information using an existing route
+            //return render(config, "peopleShow.ftl",
+            //        toMap("person", people.findOne(new ObjectId(request.params(":id")))));
+            logger.info(">>>>>>>>>>>" + request.params(":id"));
+            response.redirect("/people/" + request.params(":id"));
+            return null;
         });
 
         // Delete (as in CRUD)
@@ -105,15 +112,15 @@ public class MainFM
         get( "/hello", (request, response) -> render(config, "hello.ftl", toMap("name", "Shaderach")) );  // ** ', null' removed
 
         get( "/hello",                         // HTTP request type and URL
-             (request, response) ->            // Java 8 lambda expression
-                                               // provides call-back code
-                render(config, "helloWorld.ftl")); // call-back code to run
-                                                   // when request received
+                (request, response) ->            // Java 8 lambda expression
+                        // provides call-back code
+                        render(config, "helloWorld.ftl")); // call-back code to run
+        // when request received
 
         get( "/hello/:name",
-             (request, response) ->
-                 render( config, "hello.ftl",
-                         toMap("name", request.params(":name"))) );
+                (request, response) ->
+                        render( config, "hello.ftl",
+                                toMap("name", request.params(":name"))) );
 
 //      get( "/params", (request, response) -> render(config, "params.ftl", toMap("name", toMap("first", "mark", toMap("second", "van", null)), null)) );
         get( "/params", (request, response) -> render(config, "peopleIndex.ftl", toMap("people", people.all()))); // ** ', null' removed
