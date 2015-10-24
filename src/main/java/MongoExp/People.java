@@ -31,6 +31,8 @@ public class People {
         return database.getCollection( DBConstants.PEOPLE ).find().iterator();
     }
 
+
+
     public ArrayList<Document> all() {
         ArrayList<Document> arr = new ArrayList<>();
         MongoCursor<Document> collectionCursor = cursor();
@@ -52,18 +54,19 @@ public class People {
     }
 
     public Document update(Document updatedDoc) {
-        /* db.inventory.update(
-              {{ item: "MNO2" },
-        {
-            $set: {
-                category: "apparel",
-                        details: { model: "14Q3", manufacturer: "XYZ Company" }
-            },
-            $currentDate: { lastModified: true }
-        }}
-        )*/
+        ObjectId id = (ObjectId) updatedDoc.get("_id");
+        collection.replaceOne(eq("_id", id), updatedDoc);
         return updatedDoc;
     }
+
+    public Document update(ObjectId id, String firstName, String secondName, String profession) {
+        Document updatePerson = new Document();
+        updatePerson.append("_id", id).append("first_name", firstName)
+                    .append("second_name", secondName).append("profession", profession);
+        return update(updatePerson);
+    }
+
+
 
     public Document findOne(ObjectId id) {
         return collection.find( eq("_id", id) ).limit(1).first();
@@ -71,8 +74,8 @@ public class People {
 
     public Document create(String firstName, String secondName, String profession) {
         Document doc = new Document();
-        doc.append("first name", firstName);
-        doc.append("second name", secondName);
+        doc.append("first_name", firstName);
+        doc.append("second_name", secondName);
         doc.append("profession", profession);
         //database.getCollection(DBConstants.PEOPLE).insertOne(doc);
         collection.insertOne(doc);
@@ -93,27 +96,27 @@ public class People {
     }
 
 
-    // only of use in testing
-    public void initialize() {
+    // only of use in testing while developing
+    public void populate() {
         collection.deleteMany(new Document());
-        create("a", "b", "c"); create("d", "e", "f"); create("g", "h", "i"); create("j", "k", "l");
-        assert collection.count()==4 : "something wrong in People.initialize, number of documents is not 4";
+        create("Frank", "Zappa", "Musician"); create("Dwight", "Eisenhower", "US President"); create("Gergio", "Moroder", "Producer"); create("William", "Shakespear", "Playwright");
+        assert collection.count()==4 : "something wrong in People.populate, number of documents is not 4";
     }
 
     public static void main(String[] args) {
         People people = new People();
-        people.initialize();
+        people.populate();
 
-        ArrayList<Document> docs = people.find(Filters.or(eq("first name", "d"), eq("first name", "a")));
+        ArrayList<Document> docs = people.find(Filters.or(eq("first_name", "d"), eq("first_name", "a")));
         for (Document d : docs) {
             System.out.println(d.toJson());
         }
         System.out.println("==============================");
 
 
-        for (Document d : people.all()) {
-            System.out.println(d.toJson());
-        }
+//        for (Document d : people.all()) {
+//            System.out.println(d.toJson());
+//        }
 
     }
 }

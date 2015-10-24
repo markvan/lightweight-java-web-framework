@@ -2,16 +2,14 @@ package MongoExp;
 
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
-import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.*;
 
-import org.bson.BSON;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -24,7 +22,7 @@ public class PeopleTest {
     @Before
     public void setUp() throws Exception {
         people = new People();
-        people.initialize();
+        people.populate();
     }
 
     @After
@@ -47,33 +45,48 @@ public class PeopleTest {
 
     @Test
     public void testFind() {
-        assertThat( people.find( Filters.or(eq("first name", "d"), eq("first name", "a"))).size(), is(2) );
+        assertThat( people.find( Filters.or(eq("first_name", "Frank"), eq("first_name", "Dwight"))).size(), is(2) );
     }
 
     @Test
     public void testFindOne() {
-        assertThat( people.findOne( Filters.eq("first name", "a") ).get("first name"), is("a") );
+        assertThat( people.findOne( Filters.eq("first_name", "Frank") ).get("first_name"), is("Frank") );
     }
 
     @Test
     public void testCreate() {
         assertThat(people.all().size(), is(4));
-        people.create("x", "y", "z");
+        Document person = people.create("x", "y", "z");
         assertThat(people.all().size(), is(5));
-
+        //assertThat(person.get("_id"), is(new ObjectId("562818d790e886c776323f35")));
+        //assertThat(person.get("_id").toString(), is("562818d790e886c776323f35"));
     }
 
     @Test
     public void testDelete() {
-        assertThat( people.find(Filters.eq("first name", "d")).size(), is(1) );
-        people.delete( eq("first name", "d") );
-        assertThat( people.find(Filters.eq("first name", "d")).size(), is(0) );
-        assertThat( people.find(Filters.eq("first name", "a")).size(), is(1) );
+        assertThat( people.find(Filters.eq("first_name", "Frank")).size(), is(1) );
+        people.delete( eq("first_name", "Frank") );
+        assertThat( people.find(Filters.eq("first_name", "Frank")).size(), is(0) );
+        assertThat( people.find(Filters.eq("first_name", "Dwight")).size(), is(1) );
 
-        Document doc = people.findOne(Filters.eq("first name", "a"));
+        Document doc = people.findOne(Filters.eq("first_name", "Dwight"));
         people.delete( (ObjectId)doc.get("_id") );
-        assertThat(people.find(Filters.eq("first name", "d")).size(), is(0));
+        assertThat(people.find(Filters.eq("first_name", "Dwight")).size(), is(0));
         assertThat(people.all().size(), is(2));
+    }
+
+    @Test
+    public void testUpdate() {
+        Document person = people.findOne(Filters.eq("first_name", "Dwight"));
+        person.put("first_name", "Jane");
+        people.update(person);
+        Document updated = people.find(Filters.eq("second_name", "Eisenhower")).get(0);
+        assertThat(updated.getString("first_name"), is("Jane"));
+        people.update((ObjectId)person.get("_id"), "Julius",(String)person.get("second_name"),(String)person.get("profession") );
+        updated = people.find(Filters.eq("second_name", "Eisenhower")).get(0);
+        assertThat(updated.getString("first_name"), is("Julius"));
+
+
     }
 
 }

@@ -5,3 +5,7 @@ p {
 .highlight {
   background-color: yellow;
   }
+
+body form div label {
+  width: 40px;
+  }
